@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio - KreaTuEspacio</title>
+  <link rel="stylesheet" href="home.css">
+  <style>
+    /* Estilos adicionales para la funcionalidad de login */
+    .user-actions {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .protected-content {
+      display: none;
+      border-top: 1px solid #eee;
+      margin-top: 30px;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">KreaTuEspacio</div>
+    <div class="user-actions">
+      <button id="login-btn">Iniciar sesión</button>
+      <button id="register-btn">Registrarse</button>
+      <div id="user-greeting" style="display: none;">
+        Bienvenido, <span id="username-display"></span>
+        <button id="logout-btn">Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <section class="quienes">
+      <div class="texto">
+        <h1>¿Quiénes somos?</h1>
+        <h2>AGENCIA DE DISEÑO DE INTERIORES</h2>
+        <p>Somos una empresa dedicada a brindar soluciones de diseño interior únicas y personalizadas. Fusionamos creatividad, funcionalidad y estilo para transformar espacios en experiencias.</p>
+        <button onclick="location.href='#'">APRENDE MÁS</button>
+      </div>
+      <div class="imagen">
+        <img src="1600w-GC_UhqZlLk0.webp" alt="Equipo de trabajo">
+      </div>
+    </section>
+
+    <section class="info">
+      <h2>Misión</h2>
+      <p>Ofrecer servicios y productos de calidad en diseño interior que reflejen la personalidad de nuestros clientes.</p>
+
+      <h2>Visión</h2>
+      <p>Ser líderes en diseño de interiores en la región, creando espacios funcionales y con estilo.</p>
+
+      <h2>Objetivos</h2>
+      <ul>
+        <li>Calidad</li>
+        <li>Atención al cliente</li>
+        <li>Innovación</li>
+      </ul>
+    </section>
+
+    <!-- Contenido protegido solo para usuarios logueados -->
+    <section class="protected-content" id="protected-content">
+      <h2>Área exclusiva para clientes</h2>
+      <div class="carousel">
+        <button onclick="location.href='../store/store.html'">Almacén</button>
+        <button onclick="location.href='../workshop/workshop.html'">Taller</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Verificar estado de autenticación al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const loginBtn = document.getElementById('login-btn');
+      const registerBtn = document.getElementById('register-btn');
+      const userGreeting = document.getElementById('user-greeting');
+      const usernameDisplay = document.getElementById('username-display');
+      const logoutBtn = document.getElementById('logout-btn');
+      const protectedContent = document.getElementById('protected-content');
+
+      // Configurar rutas de los botones
+      loginBtn.addEventListener('click', () => window.location.href = 'login/login.html');
+      registerBtn.addEventListener('click', () => window.location.href = 'register/register.html');
+
+      // Manejar logout
+      logoutBtn.addEventListener('click', function() {
+        localStorage.removeItem('currentUser');
+        location.reload();
+      });
+
+      // Si hay usuario logueado
+      if (currentUser) {
+        loginBtn.style.display = 'none';
+        registerBtn.style.display = 'none';
+        userGreeting.style.display = 'block';
+        usernameDisplay.textContent = currentUser.username;
+        protectedContent.style.display = 'block';
+      } else {
+        protectedContent.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
